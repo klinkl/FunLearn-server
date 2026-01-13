@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public interface StudySessionRepository extends JpaRepository<StudySession, UUID> {
     StudySession getByUserId(UUID userId);
+
     StudySession getByStudySessionId(UUID id);
 
 }

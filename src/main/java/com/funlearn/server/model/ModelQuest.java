@@ -1,18 +1,17 @@
 package com.funlearn.server.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 @Entity
 public class ModelQuest {
     @Id
     private UUID questId;
-    private ArrayList<String> userIds;
+    @ElementCollection
+    private List<String> userIds;
     private QuestType questType;
     private Instant startDate;
     private Instant expiryDate;
@@ -21,7 +20,7 @@ public class ModelQuest {
     private boolean finished;
     private boolean friendsQuest;
     protected ModelQuest() {}
-    public ModelQuest(boolean friendsQuest, boolean finished, int requestedValue, int currentValue, Instant expiryDate, Instant startDate, QuestType questType, ArrayList<String> userIds, UUID questId) {
+    public ModelQuest(boolean friendsQuest, boolean finished, int requestedValue, int currentValue, Instant expiryDate, Instant startDate, QuestType questType, List<String> userIds, UUID questId) {
         this.friendsQuest = friendsQuest;
         this.finished = finished;
         this.requestedValue = requestedValue;
@@ -38,7 +37,7 @@ public class ModelQuest {
         return questId;
     }
 
-    public ArrayList<String> getUserIds() {
+    public List<String> getUserIds() {
         return userIds;
     }
 
@@ -98,7 +97,7 @@ public class ModelQuest {
         this.questId = questId;
     }
 
-    public void setUserIds(ArrayList<String> userIds) {
+    public void setUserIds(List<String> userIds) {
         this.userIds = userIds;
     }
 

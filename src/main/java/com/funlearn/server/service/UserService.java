@@ -5,7 +5,9 @@ import com.funlearn.server.model.ModelUser;
 import com.funlearn.server.repository.UserRepository;
 import org.apache.catalina.User;
 import org.springframework.boot.Banner;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -36,5 +38,13 @@ public class UserService {
 
     public List<UserDTO> getAll() {
         return userRepository.findAll().stream().map(this::convertToDTO).toList();
+    }
+
+    public void update(UserDTO userDTO) {
+        if (!userRepository.existsById(userDTO.getUserId())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        userRepository.save(this.convertToUser(userDTO));
+
     }
 }
