@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ModelQuestRepository extends JpaRepository<ModelQuest, UUID> {
-    ModelQuest getByUserIds(ArrayList<String> userIds);
+    ModelQuest getByUserIds(List<String> userIds);
 
     ModelQuest getByQuestId(UUID questId);
 

@@ -25,6 +25,9 @@ public class UserService {
     }
 
     public void save(UserDTO userDTO) {
+        if(userRepository.existsById(userDTO.getUserId())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "A User with this id already exists");
+        }
         userRepository.save(this.convertToUser(userDTO));
     }
 

@@ -18,11 +18,14 @@ public class ModelQuestController {
         this.modelQuestService = modelQuestService;
     }
 
-    @GetMapping("/{id}")
-    public List<ModelQuestDTO> getModelQuestsByUserId(@PathVariable UUID id) {
-        return modelQuestService.getModelQuestsByUserId(id);
+    @GetMapping("/user/{userid}")
+    public List<ModelQuestDTO> getModelQuestsByUserId(@PathVariable UUID userid) {
+        return modelQuestService.getModelQuestsByUserId(userid);
     }
-
+    @GetMapping("/{id}")
+    public ModelQuestDTO getModelQuestId(@PathVariable UUID id) {
+        return modelQuestService.getModelQuestByQuestId(id);
+    }
     @PostMapping
     public void save(@RequestBody ModelQuestDTO modelQuest) {
         modelQuestService.save(modelQuest);

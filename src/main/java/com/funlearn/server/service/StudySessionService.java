@@ -1,6 +1,7 @@
 package com.funlearn.server.service;
 
 import com.funlearn.server.api.model.StudySessionDTO;
+import com.funlearn.server.api.model.UserDTO;
 import com.funlearn.server.model.StudySession;
 import com.funlearn.server.repository.StudySessionRepository;
 import com.funlearn.server.repository.UserRepository;
@@ -22,6 +23,9 @@ public class StudySessionService {
     }
 
     public void save(StudySessionDTO studySessionDTO) {
+        if(studySessionRepository.existsById(studySessionDTO.getStudySessionId())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "A Study Session with this id already exists");
+        }
         if (!userRepository.existsById(studySessionDTO.getUserId())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
@@ -34,5 +38,11 @@ public class StudySessionService {
 
     private StudySession convertToStudySession(StudySessionDTO session) {
         return new StudySession(session.getStudySessionId(), session.getTimeStamp(), session.getXp(), session.getCardsLearnt(), session.getUserId());
+    }
+    public List<StudySessionDTO>getAll(){
+        return studySessionRepository.findAll().stream().map(this::convertToDTO).toList();
+    }
+    public StudySessionDTO getById(UUID id) {
+        return convertToDTO(studySessionRepository.getByStudySessionId(id));
     }
 }

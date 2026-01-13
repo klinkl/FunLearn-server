@@ -39,15 +39,22 @@ public class ModelQuestService {
     }
 
     public void save(ModelQuestDTO modelQuest) {
+        if(modelQuestRepository.existsById(modelQuest.getQuestId())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "A Quest with this id already exists");
+        }
         for (String userId : modelQuest.getUserIds()) {
-            UUID Id = UUID.fromString(userId);
+            UUID Id;
+            try {
+                Id = UUID.fromString(userId);
+            } catch (IllegalArgumentException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid UUID format for userId:" + userId);
+            }
             if (!userRepository.existsById(Id)) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
             }
         }
         modelQuestRepository.save(convertToModelQuest(modelQuest));
     }
-
     public void update(ModelQuestDTO modelQuest) {
         if (!modelQuestRepository.existsById(modelQuest.getQuestId())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ModelQuest not found");
