@@ -15,21 +15,28 @@ import java.util.UUID;
 @Service
 public class StudySessionService {
     private final StudySessionRepository studySessionRepository;
-    private final UserRepository userRepository;
+    private final ModelQuestService modelQuestService;
+    private final UserService userService;
 
-    public StudySessionService(StudySessionRepository studySessionRepository, UserRepository userRepository) {
+    public StudySessionService(StudySessionRepository studySessionRepository, ModelQuestService modelQuestService, UserService userService) {
         this.studySessionRepository = studySessionRepository;
-        this.userRepository = userRepository;
+        this.modelQuestService = modelQuestService;
+        this.userService = userService;
     }
 
     public void save(StudySessionDTO studySessionDTO) {
         if(studySessionRepository.existsById(studySessionDTO.getStudySessionId())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "A Study Session with this id already exists");
         }
-        if (!userRepository.existsById(studySessionDTO.getUserId())) {
+        if (!userService.existsByUserId(studySessionDTO.getUserId())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
-        studySessionRepository.save(this.convertToStudySession(studySessionDTO));
+        StudySession session = convertToStudySession(studySessionDTO);
+        studySessionRepository.save(session);
+
+        modelQuestService.updateQuestsForUser(studySessionDTO.getUserId(),session);
+
+        userService.updateWithStudySession(studySessionDTO.getUserId(),session);
     }
 
     private StudySessionDTO convertToDTO(StudySession session) {
