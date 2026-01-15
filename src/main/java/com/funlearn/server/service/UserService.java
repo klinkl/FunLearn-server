@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,11 +44,11 @@ public class UserService {
     }
 
     private UserDTO convertToDTO(ModelUser user) {
-        return new UserDTO(user.getUserId(), user.getUsername(), user.getTotalXP(), user.getTotalCardsLearned(), user.getLastStudyDate(), user.getLevel(), user.getXpToNextLevel(), user.getCurrentStreak());
+        return new UserDTO(user.getUserId(), user.getUsername(), user.getTotalXP(), user.getTotalCardsLearned(), user.getLastStudyDate(), user.getLevel(), user.getXpToNextLevel(), user.getCurrentStreak(), user.getFriends());
     }
 
     private ModelUser convertToUser(UserDTO user) {
-        return new ModelUser(user.getUserId(), user.getUsername(), user.getTotalXP(), user.getTotalCardsLearned(), user.getLastStudyDate(), user.getLevel(), user.getXpToNextLevel(), user.getCurrentStreak());
+        return new ModelUser(user.getUserId(), user.getUsername(), user.getTotalXP(), user.getTotalCardsLearned(), user.getLastStudyDate(), user.getLevel(), user.getXpToNextLevel(), user.getCurrentStreak(), user.getFriends());
     }
 
     public List<UserDTO> getAll() {
@@ -116,5 +117,14 @@ public class UserService {
     }
     public boolean existsByUserId(UUID userId) {
         return userRepository.existsById(userId);
+    }
+    public List<ModelUser> getFriends(UUID userId) {
+        ModelUser user = userRepository.getUserByUserId(userId);
+        List<UUID> friends = user.getFriends();
+        ArrayList<ModelUser> modelUsers = new ArrayList<>();
+        for (UUID friend : friends) {
+            modelUsers.add(userRepository.getUserByUserId(friend));
+        }
+        return modelUsers;
     }
 }

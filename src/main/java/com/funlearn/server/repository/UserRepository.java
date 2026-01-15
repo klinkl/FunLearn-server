@@ -7,5 +7,4 @@ import java.util.UUID;
 
 public interface UserRepository extends JpaRepository<ModelUser, UUID> {
     ModelUser getUserByUserId(UUID userId);
-
 }

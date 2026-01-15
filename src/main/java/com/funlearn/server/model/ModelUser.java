@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 @Entity
 public class ModelUser {
@@ -17,10 +18,19 @@ public class ModelUser {
     private int xpToNextLevel;
     private int currentStreak;
 
+    public List<UUID> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<UUID> friends) {
+        this.friends = friends;
+    }
+
+    private List<UUID> friends;
     protected ModelUser() {
     }
 
-    public ModelUser(UUID userId,String username, int totalXP, int totalCardsLearned, Instant lastStudyDate, int level, int xpToNextLevel, int currentStreak) {
+    public ModelUser(UUID userId,String username, int totalXP, int totalCardsLearned, Instant lastStudyDate, int level, int xpToNextLevel, int currentStreak, List<UUID> friends) {
         this.username = username != null ? username : "User";
         this.userId = userId != null ? userId : UUID.randomUUID();
         this.totalXP = totalXP;
@@ -29,6 +39,7 @@ public class ModelUser {
         this.level = level;
         this.xpToNextLevel = xpToNextLevel;
         this.currentStreak = currentStreak;
+        this.friends = friends;
     }
 
     public UUID getUserId() {
@@ -107,6 +118,7 @@ public class ModelUser {
                 ", level=" + level +
                 ", xpToNextLevel=" + xpToNextLevel +
                 ", currentStreak=" + currentStreak +
+                ",  friends=" + friends +
                 '}';
     }
 }

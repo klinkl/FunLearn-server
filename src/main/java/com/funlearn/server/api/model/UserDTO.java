@@ -3,6 +3,7 @@ package com.funlearn.server.api.model;
 import jakarta.persistence.Id;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 public class UserDTO {
@@ -15,7 +16,10 @@ public class UserDTO {
     private int xpToNextLevel;
     private int currentStreak;
 
-    public UserDTO(UUID userId, String username, int totalXP, int totalCardsLearned, Instant lastStudyDate, int level, int xpToNextLevel, int currentStreak) {
+
+    private List<UUID> friends;
+
+    public UserDTO(UUID userId, String username, int totalXP, int totalCardsLearned, Instant lastStudyDate, int level, int xpToNextLevel, int currentStreak, List<UUID> friends) {
         this.userId = userId;
         this.username = username;
         this.totalXP = totalXP;
@@ -24,6 +28,7 @@ public class UserDTO {
         this.level = level;
         this.xpToNextLevel = xpToNextLevel;
         this.currentStreak = currentStreak;
+        this.friends = friends;
     }
 
     public UUID getUserId() {
@@ -88,5 +93,13 @@ public class UserDTO {
 
     public void setCurrentStreak(int currentStreak) {
         this.currentStreak = currentStreak;
+    }
+
+    public List<UUID> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<UUID> friends) {
+        this.friends = friends;
     }
 }
