@@ -28,21 +28,5 @@ public class ServerApplication {
 		SpringApplication.run(ServerApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner demo (UserRepository userRepository){
-		return (args -> {
-			List<UUID> friends = new ArrayList<>();
-			UUID uuid = UUID.randomUUID();
-			userRepository.save(new ModelUser(uuid,"User", 0, 0, null,1,25,0,friends));
-			friends.add(uuid);
-			userRepository.save(new ModelUser(UUID.randomUUID(),"User", 0, 0, null,1,25,0,friends));
-
-			List<ModelUser> users = userRepository.findAll();
-			for (ModelUser user : users){
-				System.out.println(user.toString());
-			}
-		});
-	}
-
 
 }
