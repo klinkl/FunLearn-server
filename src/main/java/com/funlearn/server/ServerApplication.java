@@ -6,6 +6,8 @@ import com.funlearn.server.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.security.autoconfigure.SecurityAutoConfiguration;
+import org.springframework.boot.security.autoconfigure.UserDetailsServiceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -20,7 +22,7 @@ import java.util.UUID;
 				description = "API documentation for Funlearn Server"
 		)
 )
-@SpringBootApplication
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class, UserDetailsServiceAutoConfiguration.class})
 @EnableScheduling
 public class ServerApplication {
 

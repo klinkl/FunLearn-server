@@ -2,6 +2,7 @@ package com.funlearn.server.api;
 
 import com.funlearn.server.api.model.ModelQuestDTO;
 import com.funlearn.server.service.ModelQuestService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/quests/")
+@SecurityRequirement(name = "ApiKeyAuth")
 public class ModelQuestController {
     private final ModelQuestService modelQuestService;
 
