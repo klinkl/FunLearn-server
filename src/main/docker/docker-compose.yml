@@ -9,6 +9,7 @@ services:
     ports:
       - "8080:8080"
     container_name: app
+    restart: unless-stopped
     depends_on:
       - db
     environment:
@@ -21,6 +22,7 @@ services:
   db:
     image: 'postgres:13.1-alpine'
     container_name: db
+    restart: unless-stopped
     environment:
       - POSTGRES_USER=compose-postgres
       - POSTGRES_PASSWORD=compose-postgres
