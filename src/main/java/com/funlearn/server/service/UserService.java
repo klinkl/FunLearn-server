@@ -21,6 +21,7 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -35,7 +36,6 @@ public class UserService {
     public UserDTO getUserByUserId(UUID userId) {
         return userRepository.findById(userId).map(this::convertToDTO).orElseThrow(() -> new RuntimeException("User not found"));
     }
-
     public void save(UserDTO userDTO) {
         if (userRepository.existsById(userDTO.getUserId())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "A User with this id already exists");

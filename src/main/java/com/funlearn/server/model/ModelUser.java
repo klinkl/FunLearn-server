@@ -1,7 +1,6 @@
 package com.funlearn.server.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.Instant;
 import java.util.List;
@@ -25,7 +24,6 @@ public class ModelUser {
     public void setFriends(List<UUID> friends) {
         this.friends = friends;
     }
-
     private List<UUID> friends;
     protected ModelUser() {
     }
